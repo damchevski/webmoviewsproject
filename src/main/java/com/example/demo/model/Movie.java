@@ -15,4 +15,16 @@ public class Movie {
         this.name = name;
         this.author = author;
     }
+
+    public String getMovieReference() {
+        return movieReference;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
 }

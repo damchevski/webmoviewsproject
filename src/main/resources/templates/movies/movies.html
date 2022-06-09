@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
 <head>
     <meta charset="UTF-8">
     <title>Movies</title>
 </head>
 <body>
 
-Movies
+<h1>All movies for user</h1>
+<ul>
+
+    <li th:each="movie : ${allMovies}"><th:block th:text="${movie.name}"/> </li>
+
+</ul>
+
 
 </body>
 </html>

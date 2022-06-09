@@ -22,6 +22,6 @@ public class ProjectWbsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		moviesRepository.save(new UserMovies("damchevski","likes","titanic"));
+		//moviesRepository.save(new UserMovies("damchevski","likes","titanic"));
 	}
 }

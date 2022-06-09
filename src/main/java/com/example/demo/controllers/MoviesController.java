@@ -2,8 +2,11 @@ package com.example.demo.controllers;
 
 import com.example.demo.services.MovieService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/movies")
@@ -14,26 +17,38 @@ public class MoviesController {
         this.movieService = movieService;
     }
 
-    @GetMapping
-    public String indexMovies(){
+    @GetMapping("/getMovies")
+    public String getIndex(){
+
+        return "movies/getMovies.html";
+    }
+
+
+    @PostMapping("/getMovies")
+    public String indexMovies(@RequestParam String username, Model model){
         //finish
 
         //this is for example
-        var allMovies = this.movieService.GetAllMoviesForUser("damchevski");
+        var allMovies = this.movieService.GetAllMoviesForUser(username);
+        model.addAttribute("allMovies", allMovies);
 
         return "movies/movies.html";
     }
 
-    //First function:
-    //here we need method with param movieReference and userName
-    //then we will call service -> repo and save to store
+    //pocetna so 2 kopcinja
+    //edno list for user
+    //i use edno add for user koj ke nosi na novovo
+    //i na niv back koj ke nosat na pocetna
+    //i na movies.html back so ke nosi na pocetna
 
-    //Second function:
-    //From the view user will send username
-    //Then we will call service and find all movies
-    //in store linked with this username
-    //then we will send request to dbpedia for all
-    //movies, create Movie instance and send to view
+    //nov povik koj sto vrakja view so 2 polinja
+    //edno za username edno za imeto na filmot
 
-    //..
+    //post za povikot odozgore
+    //prais vo service funkcija i kreiras
+    //tamu usermovies so relacija likes
+    //i posle samo vo repo .Save
+
+
+
 }

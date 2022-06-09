@@ -15,9 +15,9 @@ public class UserMovies {
     // but info for titanic will be fetched from dbpedia
     // with sparql
 
-    private String username;
-    private String relation;
-    private String movieReference;
+    public String username;
+    public String relation;
+    public String movieReference;
 
     public UserMovies(String username, String relation, String movieReference){
         this.username = username;
