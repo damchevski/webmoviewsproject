@@ -12,7 +12,7 @@
 <h1>All movies for user</h1>
 <ul>
 
-    <li th:each="movie : ${allMovies}"><th:block th:text="${movie.name}"/> </li>
+    <li th:each="movie : ${allMovies}"><b>Movie:</b> <th:block th:text="${movie.name}"/> <b>Director:</b> <th:block th:text="${movie.director}"/></li>
 
 </ul>
 

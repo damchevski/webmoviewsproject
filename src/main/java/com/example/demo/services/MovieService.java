@@ -8,6 +8,7 @@ import org.apache.jena.base.Sys;
 import org.apache.jena.rdf.model.impl.PropertyImpl;
 import org.apache.jena.riot.RDFParser;
 import org.apache.jena.sparql.vocabulary.FOAF;
+import org.apache.jena.util.FileManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,27 +39,37 @@ public class MovieService  implements  IMovieService{
 
     @Override
     public Movie findMovieInfo(String movieReference) {
-        String movieURI = "https://dbpedia.org/data/"+movieReference;
+        String movieUri = "http://dbpedia.org/data/"+movieReference+".rdf";
 
-        Model model = ModelFactory.createDefaultModel();
-        RDFParser.source(movieURI)
-                .httpAccept("application/rdf+xml")
-                .parse(model.getGraph());
+        FileManager fManager = FileManager.get();
+        fManager.addLocatorURL();
+        Model model = fManager.loadModel(movieUri);
 
         Resource movieResource =
-                model.getResource(movieURI);
-
-        System.out.println(movieResource.listProperties());
+                model.getResource("http://dbpedia.org/resource/"+movieReference);
 
         Property directorProperty =
-                model.getProperty("https://dbpedia.org/property/director");
+                model.getProperty("http://dbpedia.org/property/director");
 
         Resource director = (Resource) movieResource
                 .getProperty(directorProperty)
                 .getObject();
 
+        String movieName = movieResource.getProperty(FOAF.name)
+                .getLiteral()
+                .toString();
 
+        Model modelForDirector = model.read(director
+                .toString()
+                .replace("resource","data"));
 
-        return null;
+        String directorName = modelForDirector
+                .getResource(director.toString())
+                .getProperty(FOAF.name)
+                .getLiteral().toString();
+
+        Movie m = new Movie(movieReference, movieName, directorName);
+
+        return m;
     }
 }

@@ -6,14 +6,12 @@ public class Movie {
 
     public String movieReference;
     public String name;
-    public String author;
+    public String director;
 
-    //..
-
-    public Movie(String movieReference, String name, String author){
+    public Movie(String movieReference, String name, String director){
         this.movieReference = movieReference;
         this.name = name;
-        this.author = author;
+        this.director = director;
     }
 
     public String getMovieReference() {
@@ -24,7 +22,7 @@ public class Movie {
         return name;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getDirector() {
+        return director;
     }
 }
