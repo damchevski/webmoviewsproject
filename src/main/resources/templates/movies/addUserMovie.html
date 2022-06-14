@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add User and Movie Pair</title>
+</head>
+<body>
+    <h1>Add New Movie For User</h1>
+
+    <form method="post" action="/movies/addUserMovie">
+        <input type="text" name="username">
+        <input type="text" name="movieName">
+        <input type="submit" value="Submit">
+    </form>
+
+    <form method="get" action="/movies">
+        <input type="submit" value="Home"/>
+    </form>
+</body>
+</html>

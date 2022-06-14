@@ -17,15 +17,20 @@ public class MoviesController {
         this.movieService = movieService;
     }
 
+    @GetMapping
+    public String getHomePage(){
+        return "movies/index.html";
+    }
+
     @GetMapping("/getMovies")
-    public String getIndex(){
+    public String getMovies(){
 
         return "movies/getMovies.html";
     }
 
 
     @PostMapping("/getMovies")
-    public String indexMovies(@RequestParam String username, Model model){
+    public String showMovies(@RequestParam String username, Model model){
         //finish
 
         //this is for example
@@ -44,11 +49,20 @@ public class MoviesController {
     //nov povik koj sto vrakja view so 2 polinja
     //edno za username edno za imeto na filmot
 
+    @GetMapping("/addUserMovie")
+    public String addUserMovie() {
+        return "movies/addUserMovie.html";
+    }
+
     //post za povikot odozgore
     //prais vo service funkcija i kreiras
     //tamu usermovies so relacija likes
     //i posle samo vo repo .Save
 
-
+    @PostMapping("/addUserMovie")
+    public String saveUserMovie(@RequestParam String username, @RequestParam String movieName){
+        movieService.addUserMovie(username, movieName);
+        return "movies/index.html";
+    }
 
 }

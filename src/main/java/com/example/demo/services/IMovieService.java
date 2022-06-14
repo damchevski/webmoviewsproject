@@ -9,4 +9,5 @@ import java.util.List;
 public interface IMovieService {
     List<Movie> GetAllMoviesForUser(String username);
     Movie findMovieInfo(String movieReference);
+    UserMovies addUserMovie(String username, String movieName);
 }

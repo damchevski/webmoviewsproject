@@ -19,7 +19,7 @@ import org.apache.jena.rdf.model.*;
 import org.apache.jena.vocabulary.*;
 
 @Service
-public class MovieService  implements  IMovieService{
+public class MovieService  implements  IMovieService {
 
     @Autowired
     private MoviesRepository moviesRepository;
@@ -30,7 +30,7 @@ public class MovieService  implements  IMovieService{
 
         List<Movie> moviesForReturn = new LinkedList<>();
 
-        for (var movieRelation: allRelations) {
+        for (var movieRelation : allRelations) {
             moviesForReturn.add(findMovieInfo(movieRelation.movieReference));
         }
 
@@ -39,14 +39,14 @@ public class MovieService  implements  IMovieService{
 
     @Override
     public Movie findMovieInfo(String movieReference) {
-        String movieUri = "http://dbpedia.org/data/"+movieReference+".rdf";
+        String movieUri = "http://dbpedia.org/data/" + movieReference + ".rdf";
 
         FileManager fManager = FileManager.get();
         fManager.addLocatorURL();
         Model model = fManager.loadModel(movieUri);
 
         Resource movieResource =
-                model.getResource("http://dbpedia.org/resource/"+movieReference);
+                model.getResource("http://dbpedia.org/resource/" + movieReference);
 
         Property directorProperty =
                 model.getProperty("http://dbpedia.org/property/director");
@@ -61,7 +61,7 @@ public class MovieService  implements  IMovieService{
 
         Model modelForDirector = model.read(director
                 .toString()
-                .replace("resource","data"));
+                .replace("resource", "data"));
 
         String directorName = modelForDirector
                 .getResource(director.toString())
@@ -71,5 +71,10 @@ public class MovieService  implements  IMovieService{
         Movie m = new Movie(movieReference, movieName, directorName);
 
         return m;
+    }
+
+    @Override
+    public UserMovies addUserMovie(String username, String movieName) {
+        return moviesRepository.save(new UserMovies(username, "likes", movieName));
     }
 }
