@@ -31,7 +31,11 @@ public class MovieService  implements  IMovieService {
         List<Movie> moviesForReturn = new LinkedList<>();
 
         for (var movieRelation : allRelations) {
-            moviesForReturn.add(findMovieInfo(movieRelation.movieReference));
+
+            Movie m = findMovieInfo(movieRelation.movieReference);
+
+            if(m.name != "")
+                moviesForReturn.add(m);
         }
 
         return moviesForReturn;
@@ -51,22 +55,30 @@ public class MovieService  implements  IMovieService {
         Property directorProperty =
                 model.getProperty("http://dbpedia.org/property/director");
 
-        Resource director = (Resource) movieResource
-                .getProperty(directorProperty)
-                .getObject();
+        String directorName = "";
+        if(movieResource.getProperty(directorProperty) != null){
 
-        String movieName = movieResource.getProperty(FOAF.name)
-                .getLiteral()
-                .toString();
+            Resource director = (Resource) movieResource
+                    .getProperty(directorProperty)
+                    .getObject();
 
-        Model modelForDirector = model.read(director
-                .toString()
-                .replace("resource", "data"));
+            Model modelForDirector = model.read(director
+                    .toString()
+                    .replace("resource", "data"));
 
-        String directorName = modelForDirector
-                .getResource(director.toString())
-                .getProperty(FOAF.name)
-                .getLiteral().toString();
+             directorName = modelForDirector
+                    .getResource(director.toString())
+                    .getProperty(FOAF.name)
+                    .getLiteral().toString();
+        }
+
+        String movieName = "";
+
+        if(movieResource.getProperty(RDFS.label) != null){
+            movieName = movieResource.getProperty(RDFS.label)
+                    .getLiteral()
+                    .toString();
+        }
 
         Movie m = new Movie(movieReference, movieName, directorName);
 
@@ -75,6 +87,6 @@ public class MovieService  implements  IMovieService {
 
     @Override
     public UserMovies addUserMovie(String username, String movieName) {
-        return moviesRepository.save(new UserMovies(username, "likes", movieName));
+        return moviesRepository.save(new UserMovies(username, "likes", movieName.trim()));
     }
 }
